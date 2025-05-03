@@ -1,0 +1,280 @@
+---- Minecraft Crash Report ----
+// I let you down. Sorry :(
+
+Time: 2025-05-03 12:37:47
+Description: Exception in server tick loop
+
+java.lang.RuntimeException: Mixin transformation of net.minecraft.class_3898 failed
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.getPostMixinClassByteArray(KnotClassDelegate.java:427)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.tryLoadClass(KnotClassDelegate.java:323)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.loadClass(KnotClassDelegate.java:218)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassLoader.loadClass(KnotClassLoader.java:119)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:526)
+	at knot//net.minecraft.class_3215.<init>(class_3215.java:84)
+	at knot//net.minecraft.class_3218.<init>(class_3218.java:242)
+	at knot//net.minecraft.server.MinecraftServer.method_3786(MinecraftServer.java:377)
+	at knot//net.minecraft.server.MinecraftServer.method_3735(MinecraftServer.java:342)
+	at knot//net.minecraft.class_1132.method_3823(class_1132.java:73)
+	at knot//net.minecraft.server.MinecraftServer.method_29741(MinecraftServer.java:664)
+	at knot//net.minecraft.server.MinecraftServer.method_29739(MinecraftServer.java:281)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+Caused by: org.spongepowered.asm.mixin.transformer.throwables.MixinTransformerError: An unexpected critical error was encountered
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:392)
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClass(MixinTransformer.java:234)
+	at org.spongepowered.asm.mixin.transformer.MixinTransformer.transformClassBytes(MixinTransformer.java:202)
+	at net.fabricmc.loader.impl.launch.knot.KnotClassDelegate.getPostMixinClassByteArray(KnotClassDelegate.java:422)
+	... 12 more
+Caused by: org.spongepowered.asm.mixin.throwables.MixinApplyError: Mixin [tickrate.mixins.json:ServerChunkLoadingManagerMixin from mod tickrate] from phase [DEFAULT] in config [tickrate.mixins.json] FAILED during APPLY
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.handleMixinError(MixinProcessor.java:638)
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.handleMixinApplyError(MixinProcessor.java:589)
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:379)
+	... 15 more
+Caused by: org.spongepowered.asm.mixin.injection.throwables.InvalidInjectionException: @At("STORE" ordinal=-1 index=-1) on net/minecraft/class_3898::tickEntityMovement$getBl with priority 1000 cannot inject into net/minecraft/class_3898::method_18727()V merged by com.ishland.vmp.mixins.playerwatching.optimize_nearby_entity_tracking_lookups.MixinThreadedAnvilChunkStorage with priority 1050 [INJECT_PREPARE Applicator Phase -> tickrate.mixins.json:ServerChunkLoadingManagerMixin from mod tickrate -> Prepare Injections -> localvar$dee000$tickrate$tickEntityMovement$getBl(Z)Z -> Prepare ->  -> { target: method_18727()V }]
+	at org.spongepowered.asm.mixin.injection.code.Injector.findTargetNodes(Injector.java:312)
+	at org.spongepowered.asm.mixin.injection.code.Injector.find(Injector.java:248)
+	at org.spongepowered.asm.mixin.injection.struct.InjectionInfo.prepare(InjectionInfo.java:475)
+	at org.spongepowered.asm.mixin.transformer.MixinTargetContext.prepareInjections(MixinTargetContext.java:1407)
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.prepareInjections(MixinApplicatorStandard.java:731)
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.applyMixin(MixinApplicatorStandard.java:315)
+	at org.spongepowered.asm.mixin.transformer.MixinApplicatorStandard.apply(MixinApplicatorStandard.java:246)
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.apply(TargetClassContext.java:437)
+	at org.spongepowered.asm.mixin.transformer.TargetClassContext.applyMixins(TargetClassContext.java:418)
+	at org.spongepowered.asm.mixin.transformer.MixinProcessor.applyMixins(MixinProcessor.java:363)
+	... 15 more
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.21.1
+	Minecraft Version ID: 1.21.1
+	Operating System: Windows 11 (amd64) version 10.0
+	Java Version: 21.0.3, Microsoft
+	Java VM Version: OpenJDK 64-Bit Server VM (mixed mode), Microsoft
+	Memory: 296091064 bytes (282 MiB) / 1633681408 bytes (1558 MiB) up to 4294967296 bytes (4096 MiB)
+	CPUs: 4
+	Processor Vendor: GenuineIntel
+	Processor Name: 11th Gen Intel(R) Core(TM) i3-1115G4 @ 3.00GHz
+	Identifier: Intel64 Family 6 Model 140 Stepping 2
+	Microarchitecture: Tiger Lake
+	Frequency (GHz): 3.00
+	Number of physical packages: 1
+	Number of physical CPUs: 2
+	Number of logical CPUs: 4
+	Graphics card #0 name: Intel(R) UHD Graphics
+	Graphics card #0 vendor: Intel Corporation
+	Graphics card #0 VRAM (MiB): 2048.00
+	Graphics card #0 deviceId: VideoController1
+	Graphics card #0 versionInfo: 32.0.101.6737
+	Memory slot #0 capacity (MiB): 8192.00
+	Memory slot #0 clockSpeed (GHz): 3.20
+	Memory slot #0 type: DDR4
+	Virtual memory max (MiB): 17699.30
+	Virtual memory used (MiB): 13354.38
+	Swap memory total (MiB): 9728.00
+	Swap memory used (MiB): 2050.84
+	Space in storage for jna.tmpdir (MiB): <path not set>
+	Space in storage for org.lwjgl.system.SharedLibraryExtractPath (MiB): <path not set>
+	Space in storage for io.netty.native.workdir (MiB): <path not set>
+	Space in storage for java.io.tmpdir (MiB): available: 167254.02, total: 435981.00
+	Space in storage for workdir (MiB): available: 167254.02, total: 435981.00
+	JVM Flags: 3 total; -XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump -Xms1536m -Xmx4096m
+	Fabric Mods: 
+		appleskin: AppleSkin 3.0.6+mc1.21
+		architectury: Architectury 13.0.8
+		badoptimizations: BadOptimizations 2.2.1
+		baritone: Baritone 1.11.0
+			dev_babbaj_nether-pathfinder: nether-pathfinder 1.4.1
+		betterf3: BetterF3 11.0.3
+		betterhurtcam: BetterHurtCam 1.9.1+mc1.21
+			fabric-key-binding-api-v1: Fabric Key Binding API (v1) 1.0.47+0af3f5a790
+		bind_cmd: BindCommands 1.5.1
+		c2me: Concurrent Chunk Management Engine 0.3.0+alpha.0.152+1.21.1
+			c2me-base: Concurrent Chunk Management Engine (Base) 0.3.0+alpha.0.152+1.21.1
+			c2me-client-uncapvd: Concurrent Chunk Management Engine (Client/Uncap View Distance) 0.3.0+alpha.0.152+1.21.1
+			c2me-fixes-chunkio-threading-issues: Concurrent Chunk Management Engine (Fixes/Chunk IO/Threading Issues) 0.3.0+alpha.0.152+1.21.1
+			c2me-fixes-general-threading-issues: Concurrent Chunk Management Engine (Fixes/General/Threading Issues) 0.3.0+alpha.0.152+1.21.1
+			c2me-fixes-worldgen-threading-issues: Concurrent Chunk Management Engine (Fixes/WorldGen/Threading Issues) 0.3.0+alpha.0.152+1.21.1
+			c2me-fixes-worldgen-vanilla-bugs: Concurrent Chunk Management Engine (Fixes/WorldGen/Vanilla Bugs) 0.3.0+alpha.0.152+1.21.1
+			c2me-notickvd: Concurrent Chunk Management Engine (No Tick View Distance) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-allocs: Concurrent Chunk Management Engine (Optimizations/Memory Allocations) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-chunk-access: Concurrent Chunk Management Engine (Optimizations/Chunk Access) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-chunkio: Concurrent Chunk Management Engine (Optimizations/Chunk IO) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-math: Concurrent Chunk Management Engine (Optimizations/Math) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-scheduling: Concurrent Chunk Management Engine (Optimizations/Scheduling) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-worldgen-general: Concurrent Chunk Management Engine (Optimizations/General WorldGen) 0.3.0+alpha.0.152+1.21.1
+			c2me-opts-worldgen-vanilla: Concurrent Chunk Management Engine (Optimizations/Vanilla WorldGen) 0.3.0+alpha.0.152+1.21.1
+			c2me-rewrites-chunk-serializer: Concurrent Chunk Management Engine (Rewrites/Chunk Serializer) 0.3.0+alpha.0.152+1.21.1
+			c2me-rewrites-chunk-system: Concurrent Chunk Management Engine (Rewrites/Chunk System) 0.3.0+alpha.0.152+1.21.1
+			c2me-rewrites-chunkio: Concurrent Chunk Management Engine (Rewrites/Chunk IO) 0.3.0+alpha.0.152+1.21.1
+			c2me-server-utils: Concurrent Chunk Management Engine (Server Utils) 0.3.0+alpha.0.152+1.21.1
+			c2me-threading-lighting: Concurrent Chunk Management Engine (Threading/Lighting) 0.3.0+alpha.0.152+1.21.1
+			com_ibm_async_asyncutil: asyncutil 0.1.0
+			io_reactivex_rxjava3_rxjava: rxjava 3.1.8
+			net_objecthunter_exp4j: exp4j 0.4.8
+			org_jctools_jctools-core: jctools-core 4.0.5
+			org_reactivestreams_reactive-streams: reactive-streams 1.0.4
+		chatanimation: ChatAnimation 1.0.6
+		chatshot: ChatShot 1.0.3
+		cloth-config: Cloth Config v15 15.0.140
+			cloth-basic-math: cloth-basic-math 0.6.1
+		crystaloptimizer: CrystalOptimizer 1.0.0
+		enhancedblockentities: Enhanced Block Entities 0.10.1+1.21
+		fabric-api: Fabric API 0.115.0+1.21.1
+			fabric-api-base: Fabric API Base 0.4.42+6573ed8c19
+			fabric-api-lookup-api-v1: Fabric API Lookup API (v1) 1.6.70+b559734419
+			fabric-biome-api-v1: Fabric Biome API (v1) 13.0.31+d527f9fd19
+			fabric-block-api-v1: Fabric Block API (v1) 1.0.22+0af3f5a719
+			fabric-block-view-api-v2: Fabric BlockView API (v2) 1.0.10+6573ed8c19
+			fabric-blockrenderlayer-v1: Fabric BlockRenderLayer Registration (v1) 1.1.52+0af3f5a719
+			fabric-client-tags-api-v1: Fabric Client Tags 1.1.15+6573ed8c19
+			fabric-command-api-v1: Fabric Command API (v1) 1.2.49+f71b366f19
+			fabric-command-api-v2: Fabric Command API (v2) 2.2.28+6ced4dd919
+			fabric-commands-v0: Fabric Commands (v0) 0.2.66+df3654b319
+			fabric-content-registries-v0: Fabric Content Registries (v0) 8.0.18+b559734419
+			fabric-convention-tags-v1: Fabric Convention Tags 2.1.2+7f945d5b19
+			fabric-convention-tags-v2: Fabric Convention Tags (v2) 2.9.2+e60e56d419
+			fabric-crash-report-info-v1: Fabric Crash Report Info (v1) 0.2.29+0af3f5a719
+			fabric-data-attachment-api-v1: Fabric Data Attachment API (v1) 1.4.1+9ed317f519
+			fabric-data-generation-api-v1: Fabric Data Generation API (v1) 20.2.25+16c4ae2519
+			fabric-dimensions-v1: Fabric Dimensions API (v1) 4.0.0+6fc22b9919
+			fabric-entity-events-v1: Fabric Entity Events (v1) 1.7.0+2122d82819
+			fabric-events-interaction-v0: Fabric Events Interaction (v0) 0.7.13+ba9dae0619
+			fabric-game-rule-api-v1: Fabric Game Rule API (v1) 1.0.53+6ced4dd919
+			fabric-item-api-v1: Fabric Item API (v1) 11.1.1+d5debaed19
+			fabric-item-group-api-v1: Fabric Item Group API (v1) 4.1.6+6823f7cd19
+			fabric-keybindings-v0: Fabric Key Bindings (v0) 0.2.45+df3654b319
+			fabric-lifecycle-events-v1: Fabric Lifecycle Events (v1) 2.5.0+01d9a51c19
+			fabric-loot-api-v2: Fabric Loot API (v2) 3.0.15+3f89f5a519
+			fabric-loot-api-v3: Fabric Loot API (v3) 1.0.3+3f89f5a519
+			fabric-message-api-v1: Fabric Message API (v1) 6.0.13+6573ed8c19
+			fabric-model-loading-api-v1: Fabric Model Loading API (v1) 2.0.0+fe474d6b19
+			fabric-networking-api-v1: Fabric Networking API (v1) 4.3.0+c7469b2119
+			fabric-object-builder-api-v1: Fabric Object Builder API (v1) 15.2.1+40875a9319
+			fabric-particles-v1: Fabric Particles (v1) 4.0.2+6573ed8c19
+			fabric-recipe-api-v1: Fabric Recipe API (v1) 5.0.14+248df81c19
+			fabric-registry-sync-v0: Fabric Registry Sync (v0) 5.2.0+34f5d91419
+			fabric-renderer-api-v1: Fabric Renderer API (v1) 3.4.0+c705a49c19
+			fabric-renderer-indigo: Fabric Renderer - Indigo 1.7.0+c705a49c19
+			fabric-renderer-registries-v1: Fabric Renderer Registries (v1) 3.2.68+df3654b319
+			fabric-rendering-data-attachment-v1: Fabric Rendering Data Attachment (v1) 0.3.48+73761d2e19
+			fabric-rendering-fluids-v1: Fabric Rendering Fluids (v1) 3.1.6+1daea21519
+			fabric-rendering-v0: Fabric Rendering (v0) 1.1.71+df3654b319
+			fabric-rendering-v1: Fabric Rendering (v1) 5.0.5+df16efd019
+			fabric-resource-conditions-api-v1: Fabric Resource Conditions API (v1) 4.3.0+8dc279b119
+			fabric-resource-loader-v0: Fabric Resource Loader (v0) 1.3.1+5b5275af19
+			fabric-screen-api-v1: Fabric Screen API (v1) 2.0.25+8b68f1c719
+			fabric-screen-handler-api-v1: Fabric Screen Handler API (v1) 1.3.88+b559734419
+			fabric-sound-api-v1: Fabric Sound API (v1) 1.0.23+6573ed8c19
+			fabric-transfer-api-v1: Fabric Transfer API (v1) 5.4.2+c24bd99419
+			fabric-transitive-access-wideners-v1: Fabric Transitive Access Wideners (v1) 6.2.0+45b9699719
+		fabric-language-kotlin: Fabric Language Kotlin 1.13.2+kotlin.2.1.20
+			org_jetbrains_kotlin_kotlin-reflect: kotlin-reflect 2.1.20
+			org_jetbrains_kotlin_kotlin-stdlib: kotlin-stdlib 2.1.20
+			org_jetbrains_kotlin_kotlin-stdlib-jdk7: kotlin-stdlib-jdk7 2.1.20
+			org_jetbrains_kotlin_kotlin-stdlib-jdk8: kotlin-stdlib-jdk8 2.1.20
+			org_jetbrains_kotlinx_atomicfu-jvm: atomicfu-jvm 0.27.0
+			org_jetbrains_kotlinx_kotlinx-coroutines-core-jvm: kotlinx-coroutines-core-jvm 1.10.1
+			org_jetbrains_kotlinx_kotlinx-coroutines-jdk8: kotlinx-coroutines-jdk8 1.10.1
+			org_jetbrains_kotlinx_kotlinx-datetime-jvm: kotlinx-datetime-jvm 0.6.2
+			org_jetbrains_kotlinx_kotlinx-io-bytestring-jvm: kotlinx-io-bytestring-jvm 0.7.0
+			org_jetbrains_kotlinx_kotlinx-io-core-jvm: kotlinx-io-core-jvm 0.7.0
+			org_jetbrains_kotlinx_kotlinx-serialization-cbor-jvm: kotlinx-serialization-cbor-jvm 1.8.0
+			org_jetbrains_kotlinx_kotlinx-serialization-core-jvm: kotlinx-serialization-core-jvm 1.8.0
+			org_jetbrains_kotlinx_kotlinx-serialization-json-jvm: kotlinx-serialization-json-jvm 1.8.0
+		fabricloader: Fabric Loader 0.16.10
+			mixinextras: MixinExtras 0.4.1
+		forcecloseworldloadingscreen: kennytv's epic force close loading screen mod for Fabric 2.2.3
+		forgeconfigapiport: Forge Config API Port 21.1.3
+			com_electronwill_night-config_core: core 3.8.0
+			com_electronwill_night-config_toml: toml 3.8.0
+		freelook: Freelook 1.2.5
+		gammautils: Gamma Utils 2.1.2
+		gradient-chat: Gradient Chat 1.0.0
+		herosanchoroptimizer: HerosAnchorOptimizer 1.1.3
+		immediatelyfast: ImmediatelyFast 1.3.3+1.21.1
+			net_lenni0451_reflect: Reflect 1.3.4
+		java: OpenJDK 64-Bit Server VM 21
+		krypton: Krypton 0.2.8
+			com_velocitypowered_velocity-native: velocity-native 3.3.0-SNAPSHOT
+		litematica: Litematica 0.19.54
+		lithium: Lithium 0.14.3-snapshot+mc1.21.1-build.92
+		malilib: MaLiLib 0.21.6
+		minecraft: Minecraft 1.21.1
+		modernfix: ModernFix 5.20.0+mc1.21.1
+		modmenu: Mod Menu 11.0.3
+		moreculling: More Culling 1.0.3
+			conditional-mixin: conditional mixin 0.6.3
+			mixinsquared: MixinSquared 0.2.0
+		motionblur: Motion Blur 1.0.5+mc1.21
+		no_fog: No Fog 1.3.6+1.16.5-1.21
+		nochatreports: No Chat Reports 1.21.1-v2.9.1
+		noisium: Noisium 2.3.0+mc1.21-1.21.1
+		placeholder-api: Placeholder API 2.4.1+1.21
+		reeses-sodium-options: Reese's Sodium Options 1.8.0+mc1.21.3
+		satin: Satin 2.0.0
+		screenshotclipboard: Screenshot to Clipboard 1.0.10
+		shieldstatus: Shield Status 1.21.1
+		shulkerboxtooltip: Shulker Box Tooltip 5.1.2+1.21.1
+		sodium: Sodium 0.6.5+mc1.21.1
+		sodium-extra: Sodium Extra 0.6.0+mc1.21.1
+		status-effect-bars: Status Effect Bars 1.0.6
+		threadtweak: ThreadTweak 0.1.5+mc1.21.1
+		tickrate: TickRate 0.3.2-1.21.1
+		tier-tagger: TierTagger 1.98.0+mc1.21
+		togglenametags: ToggleNametags 2.1.1
+		totemcounter: TotemCounter 1.6.1+mc1.21
+		tpshud: TPS Hud 1.7.3+1.21
+			me_obsilabor_alert: alert 1.0.8
+		ukulib: ukulib 1.4.1+1.21
+			com_moandjiezana_toml_toml4j: toml4j 0.7.2
+		ukus-armor-hud: uku's Armor HUD 0.5.1+mc1.21
+		viafabricplus: ViaFabricPlus 3.4.9
+			com_github_oryxel_cubeconverter: CubeConverter 5ae1e90e4f
+			com_google_code_findbugs_jsr305: jsr305 3.0.2
+			com_vdurmont_semver4j: semver4j 3.1.0
+			com_viaversion_viabackwards-common: viabackwards-common 5.1.0
+			com_viaversion_viaversion-common: viaversion-common 5.1.1-20241025.184819-1
+			de_florianmichael_classic4j: Classic4J 2.1.1-SNAPSHOT
+			io_jsonwebtoken_jjwt-api: jjwt-api 0.12.6
+			io_jsonwebtoken_jjwt-gson: jjwt-gson 0.12.6
+			io_jsonwebtoken_jjwt-impl: jjwt-impl 0.12.6
+			io_netty_netty-codec-http: netty-codec-http 4.1.114
+			net_jodah_expiringmap: expiringmap 0.5.10
+			net_lenni0451_commons_httpclient: httpclient 1.6.0
+			net_lenni0451_mcping: MCPing 1.4.2
+			net_lenni0451_mcstructs-bedrock_forms: forms 1.2.1
+			net_lenni0451_mcstructs-bedrock_text: text 1.2.1
+			net_raphimc_minecraftauth: MinecraftAuth 4.1.1
+			net_raphimc_viaaprilfools-common: viaaprilfools-common 3.0.4-20241025.171739-1
+			net_raphimc_viabedrock: ViaBedrock 0.0.13-20241025.223546-1
+			net_raphimc_vialegacy: ViaLegacy 3.0.5-20241025.171620-1
+			net_raphimc_vialoader: ViaLoader 3.0.5-20241025.171921-1
+			org_cloudburstmc_netty_netty-transport-raknet: netty-transport-raknet 1.0.0.CR3-SNAPSHOT
+			org_lz4_lz4-pure-java: lz4-pure-java 1.8.0
+		vmp: Very Many Players 0.2.0+beta.7.169+1.21.1
+		whitenametags: WhiteNametags 1.0
+		xaerominimap: Xaero's Minimap 25.2.0
+		yet_another_config_lib_v3: YetAnotherConfigLib 3.6.2+1.21-fabric
+			com_twelvemonkeys_common_common-image: common-image 3.12.0
+			com_twelvemonkeys_common_common-io: common-io 3.12.0
+			com_twelvemonkeys_common_common-lang: common-lang 3.12.0
+			com_twelvemonkeys_imageio_imageio-core: imageio-core 3.12.0
+			com_twelvemonkeys_imageio_imageio-metadata: imageio-metadata 3.12.0
+			com_twelvemonkeys_imageio_imageio-webp: imageio-webp 3.12.0
+			org_quiltmc_parsers_gson: gson 0.2.1
+			org_quiltmc_parsers_json: json 0.2.1
+		zoomify: Zoomify 2.14.2+1.21.1
+			com_akuleshov7_ktoml-core-jvm: ktoml-core-jvm 0.5.2
+	Server Running: true
+	Player Count: 0 / 8; []
+	Active Data Packs: vanilla, fabric, fabric-convention-tags-v2
+	Available Data Packs: bundle, fabric, fabric-convention-tags-v2, trade_rebalance, vanilla
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Stable
+	World Seed: -721174607328180553
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'fabric'; Server brand changed to 'fabric'
+	Launched Version: 1.21.1

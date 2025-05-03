@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hex Color Text Viewer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #444;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 18px;
+            margin: 10px 0;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .output {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+        span {
+            font-size: 32px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Hex Color Text Viewer</h1>
+        <input type="text" id="inputText" placeholder="Type hex + letters (e.g., #FF0000H#00FF00E)" oninput="updateText()">
+        <div class="output" id="text"></div>
+    </div>
+
+    <script>
+        // Function to process and display the text with colors
+        function updateText() {
+            const inputText = document.getElementById('inputText').value;
+            const regex = /#([0-9A-Fa-f]{6})([A-Za-z])/g;
+            let result = "";
+            let match;
+            
+            while ((match = regex.exec(inputText)) !== null) {
+                const color = match[1];
+                const letter = match[2];
+                result += `<span style="color: #${color}">${letter}</span>`;
+            }
+            
+            document.getElementById("text").innerHTML = result;
+        }
+    </script>
+
+</body>
+</html>
