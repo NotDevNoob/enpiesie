@@ -1,0 +1,1032 @@
+package com.example.gradientchat.gui;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.gradientchat.GradientManager;
+import com.example.gradientchat.GradientManager.GradientPreset;
+
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Identifier;
+
+public class GradientScreen extends Screen {
+    private static final int BUTTON_WIDTH = 120;
+    private static final int BUTTON_HEIGHT = 20;
+    private static final int COLOR_BUTTON_SIZE = 25;
+    private static final int PADDING = 15;
+    
+    // Background texture
+    private static final Identifier BACKGROUND = new Identifier("textures/gui/options_background.png");
+    
+    // Background texture
+    private static final Identifier BACKGROUND = new Identifier("textures/gui/options_background.png");
+    
+    // Background texture
+    private static final Identifier BACKGROUND = new Identifier("textures/gui/options_background.png");
+    
+    private final GradientManager gradientManager;
+    private final List<ColorButton> colorButtons = new ArrayList<>();
+    private final List<ButtonWidget> presetButtons = new ArrayList<>();
+    
+    private TextFieldWidget previewField;
+    private String previewText = "Preview your gradient text here!";
+    private int selectedPreset;
+    private ColorPickerWidget colorPicker;
+    private int selectedColorIndex = -1;
+    
+    public GradientScreen(GradientManager gradientManager) {
+        super(Text.literal("Gradient Chat Settings"));
+        this.gradientManager = gradientManager;
+        this.selectedPreset = gradientManager.getPresets().indexOf(gradientManager.getCurrentPreset());
+    }
+    
+    @Override
+    protected void init() {
+        super.init();
+        
+        int centerX = width / 2;
+        int leftPanelX = centerX - 200;
+        int rightPanelX = centerX + 30;
+        int leftPanelX = centerX - 200;
+        int rightPanelX = centerX + 30;
+        int leftPanelX = centerX - 200;
+        int rightPanelX = centerX + 30;
+        int startY = 50;
+        
+        // Add preset buttons in a vertical panel on the left
+        List<GradientPreset> presets = gradientManager.getPresets();
+        for (int i = 0; i < presets.size(); i++) {
+            final int presetIndex = i;
+            ButtonWidget presetButton = ButtonWidget.builder(
+                    Text.literal(presets.get(i).getName()),
+                    button -> selectPreset(presetIndex)
+            height - 8)
+                    .dimensions(leftPanelX, startY + i BUTTON_WIDTH, BUTTON_HEIGHT)
+                    .build();
+             at the bottom
+            addDrawableChild(presetButton); at the bottom
+            presetButtons.add(presetButtonrightPanelX, startY);
+        }
+        
+        // Highlight the selected preset in a grid on the right
+        updatePresetButtonStates();
+        height - 8
+        // Add color buttons for the selected preset in a grid on the right
+        updateColorButtons(rightPanelX, startY);
+        
+        // Add preview text field at the bottom
+        previewField = new TextFieldWidget(
+                textRenderer,
+                centerX - 160,
+                height - 80,
+                300,
+                20,
+                Text.literal("Preview Text")
+        );
+        previewField.setMaxLength(100);
+        previewField.setText(previewText);
+        previewField.setChangedListener(this::updatePreviewText);
+        addDrawableChild(previewField);
+        
+        // Add save buttonwidth / 2 + 30, 50
+        ButtonWidget saveButton = ButtonWidget.builder(
+                Text.literal("Save & Close"),
+                button -> {
+                    gradientManager.setCurrentPresetIndex(selif (i == selectedPreset) {
+                // Make selected button stand out
+                button.active = false;
+                button.setMessage(Text.literal("▶ " + gradientManager.getPresets().get(i).getName()));
+            } else {
+                button.active = true;
+                button.setMessage(Text.literal(gradientManager.getPresets().get(i).getName()));
+            }
+                    gradientManager.savePresets(int startX, int startY);
+                    close();
+                }
+        )
+                .dimensions(centerX - 60, height - 40, 120, 20)
+                .build();
+        addDrawableChild(saveButtonwidth / 2 + 30, 50);
+    }
+    
+    private void updatePreviewText(String text) {
+        this.previewText = text;
+    }
+    
+    private void selectPreset(int index) {
+        selif (i == selectedPreset) {
+                // Make selected button stand out
+                button.active = false;
+                button.setMessage(Text.literal("▶ " + gradientManager.getPresets().get(i).getName()));
+            } else {
+                button.active = true;
+                button.setMessage(Text.literal(gradientManager.getPresets().get(i).getName()));
+            } = index;
+        updatePresetButtonStates();
+        updateColorButtons(width / 2 + 30, 50);
+    }
+    
+    private void updatePresetButtonStates() {
+        for (int i = 0; i < presetButtons.size(); i++) {
+            ButtonWidget button = presetButtons.get(i);
+            if (i == selectedPreset) {
+                // Make selected button stand out
+                button.active = false;
+                button.setMessage(Text.literal("▶ " + gradientManager.getPresets().get(i).getName()));
+            } else {
+                button.active = true;
+                button.setMessage(Text.literal(gradientManager.getPresets().get(i).getName()));
+            }
+        }
+    }
+    
+    private void updateColorButtons(int startX, int startY) {
+        // Remove existing color buttons
+        colorButtons.forEach(this::remove);
+        colorButtons.clear();
+        
+        // Add new color buttons for the selected preset
+        GradientPreset preset = gradientManager.getPresets().get(selectedPreset);
+        int[] colors = preset.getColors();
+         height / 2 20-
+        // Position the color picker in the center
+        int buttonsPerRow = 5;
+   - 10    
+        for (int i = 0; i < colors.length; i++) {
+        20    final int colorIndex = i;
+            int row = i / buttonsPerRow;
+            int col = i % buttonsPerRow;
+            
+            ColorButton colorButton = new ColorButton(
+                    startX + col * (COLOR_BUTTON_SIZE + 10),
+                    startY + row * (COLOR_BUTTON_SIZE + 10),
+                    COLOR_BUTTON_SIZE,
+                    COLOR_BUTTON_SIZE,
+                    Text.literal(""),
+                    button -> openColorPicker(colorIndex),
+                    colors[i]
+            );
+            addDrawableChild(colorButton);
+            colorButtons.add(colorButton);
+        }
+        
+        // Close color picker if open
+        if (colorPicker != null) {
+            remove(colorPicker);
+            colorPicker = null;
+            selectedColorIndex = -1;
+        }
+    }
+    
+    private void openColorPicker(int colorIndex) {
+        // Remove existing color picker if any
+        if (colorPicker != null) {
+            remove(colorPicker);
+        }
+        
+        selectedColorIndex = colorIndex;
+        GradientPreset preset = gradientManager.getPresets().get(selectedPreset);
+        int currentColor = preset.getColors()[colorIndex];
+        
+        // Position the color picker in the center
+        colorPicker = new ColorPickerWidget(
+                width / 2 - 100,
+                height / 2 - 100,
+                200,
+                200,
+                currentColor,
+                this::onColorSelected
+        );
+        
+        addDrawableChild(colorPicker);
+    }
+    
+    private void onColorSelected(int color) {
+        if (selectedColorIndex >= 0) {
+            GradientPreset preset = gradientManager.getPresets().get(selectedPreset);
+            preset.setColor(selectedColorIndex, color);
+            
+            // Update the color button
+            colorButtons.get(selectedColorIndex).setColor(color);
+        }
+    }
+    
+    @Override
+    public void render(DrawContext context, int mouseX, int mouseY, float delta) {
+        // Draw a nice background
+        context.setShaderColor(0.3f, 0.3f, 0.3f, 1.0f);
+        context.drawTexture(BACKGROUND, 0, 0, 0, 0, width, height, 32, 32);
+        context.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        
+        // Draw semi-transparent panels
+        int centerX = width / 2;
+        
+        // Left panel for presets
+        fillGradient(context, centerX - 210, 40, centerX - 20, height - 20, 0x80000000, 0x80000000);
+        
+        // Right panel for colors
+        fillGradient(context, centerX + 20, 40, centerX + 210, height - 100, 0x80000000, 0x80000000);
+      // Draw a nice background
+        context.setShaderColor(0.3f, 0.3f, 0.3f, 1.0f);
+        context.drawTexture(BACKGROUND, 0, 0, 0, 0, width, height, 32, 32);
+        context.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        
+        // Draw semi-transparent panels
+        int centerX = width / 2;
+        
+        // Left panel for presets
+        fillGradient(context, centerX - 210, 40, centerX - 20, height - 20, 0x80000000, 0x80000000);
+        
+        // Right panel for colors
+        fillGradient(context, centerX + 20, 40, centerX + 210, height - 100, 0x80000000, 0x80000000);
+        
+        // Bottom panel for preview
+        fillGradient(context, centerX - 160, height - 100, centerX + 160, height - 20, 0x80000000, 0x80000000);
+        
+        // Draw title with gradient
+        String titleText = "Gradient Chat Settings";
+        int titleWidth = textRenderer.getWidth(titleText);
+        int charWidth = titleWidth / titleText.length();
+        int startX = centerX - titleWidth / 2;
+        
+        for (int i = 0; i < titleText.length(); i++) {
+            float hue = (float) i / titleText.length();
+            int color = Color.HSBtoRGB(hue, 0.8f, 1.0f);
+            
+            context.drawText(
+                    textRenderer,
+                    String.valueOf(titleText.charAt(i)),
+                    startX + i * charWidth,
+                    15,
+                    color,
+                    true
+            );
+        }
+        
+        // Draw section titles
+        context.drawTextWithShadow(textRenderer, Text.literal("Presets"), centerX - 200, 35, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, Text.literal("Colors"), centerX + 30, 35, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, Text.literal("Preview"), centerX - 150, height - 95, 0xFFFFFF);
+        
+        // Draw preview with gradient
+        String gradientText = gradientManager.applyGradient(previewText);
+        int previewY = height - 55;
+        
+        // Draw the preview text
+        context.drawText(textRenderer, gradientText, centerX - 150, previewY, 0xFFFFFF, true);
+        
+        super.render(context, mouseX, mouseY, delta);
+        
+        private TextFieldWidget hexInput;
+        
+        // Draw tooltips for color buttons
+        for (int i = 0; i < colorButtons.size(); i++) {
+            ColorButton button = colorButtons.get(i);
+            if (button.isHovered()) {
+                int color = gradientManager.getPresets().get(selectedPreset).getColors()[i];
+                String hexColor = String.format("#%06X", color);
+                context.drawTooltip(textRenderer, Text.literal(hexColor), mouseX, mouseY);
+            }
+        }
+    }
+    
+    private void fillGradient(DrawContext context, int x1, int y1, int x2, int y2, int colorStart, int colorEnd) {
+        context.fillGradient(x1, y1, x2, y2, colorStart, colorEnd);
+        // Draw a border
+        context.drawBorder(x1, y1, x2 - x1, y2 - y1, 0x80FFFFFF  
+        // Bottom panel for preview
+        fillGradient(context, centerX - 160, height - 100, centerX + 160, height - 20, 0x80000000, 0x80000000);
+            
+            // Add hex input field
+            hexInput = new TextFieldWidget(
+                    MinecraftClient.getInstance().textRenderer,
+                    x + width/2 - 40,
+                    y + height - 25,
+                    80,
+                    20,
+                    Text.literal("Hex")
+            );
+            hexInput.setMaxLength(7); // #RRGGBB
+            hexInput.setText(String.format("#%06X", selectedColor));
+            hexInput.setChangedListener(this::onHexChanged);
+            
+            // Add to parent screen
+            MinecraftClient.getInstance().currentScreen.addDrawableChild(hexInput);
+        }
+        
+        private void onHexChanged(String text) {
+            if (text.startsWith("#") && text.length() == 7) {
+                try {
+                    int color = Integer.parseInt(text.substring(1), 16);
+                    selectedColor = color;
+                    
+                    // Update HSB values
+                    float[] hsb = Color.RGBtoHSB(
+                            (color >> 16) & 0xFF,
+                            (color >> 8) & 0xFF,
+                            color & 0xFF,
+                            null
+                    );
+                    
+                    hue = (int) (hsb[0] * 360);
+                    saturation = (int) (hsb[1] * 100);
+                    brightness = (int) (hsb[2] * 100);
+                    
+                    callback.onColorSelected(color);
+                } catch (NumberFormatException e) {
+                    // Invalid hex, ignore
+                }
+            }
+        }
+        
+        public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+            // Draw background with border
+            context.fill(getX(), getY(), getX() + width, getY() + height, 0xDD333333);
+            context.drawBorder(getX(), getY(), width, height, 0xFFFFFFFF);
+            
+            // Draw title
+            String title = "Color Picker";
+            int titleWidth = MinecraftClient.getInstance().textRenderer.getWidth(title);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    title,
+                    getX() + (width - titleWidth) / 2,
+                    getY() + 5,
+                    0xFFFFFFFF,
+                    true
+            );
+            
+            // Draw hue slider
+            int hueSliderHeight = 15;
+            int hueSliderY = getY() + 25;
+            
+            // Draw hue slider background
+            context.fill(getX() + 10, hueSliderY, getX() + width - 10, hueSliderY + hueSliderHeight, 0xFF000000);
+            
+            // Draw hue gradient
+        // Draw title with gradient
+        String titleText = "Gradient Chat Settings";
+        int titleWidth = textRenderer.getWidth(titleText);
+        int charWidth = titleWidth / titleText.length();
+        int startX = centerX - titleWidth / 2;
+        
+        for (int i = 0; i < titleText.length(); i++) {
+            float hue = (float) i / titleText.length();
+            int color = Color.HSBtoRGB(hue, 0.8f, 1.0f);
+            
+            context.drawText(
+                    textRenderer,
+                    String.valueOf(titleText.charAt(i)),
+                    startX + i * charWidth,
+                    15,
+                    color,
+                    true
+            // Draw a nice background
+        context.setShaderColor(0.3f, 0.3f, 0.3f, 1.0f);
+        context.drawTexture(BACKGROUND, 0, 0, 0, 0, width, height, 32, 32);
+        context.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
+        
+            // Draw grid background
+            context.fill(gridX, gridY, gridX + gridSize, gridY + gridSize, 0xFF000000);
+            
+            // Draw saturation/brightness gradient
+        // Draw semi-transparent panels
+        int centerX = width / 2;
+        
+        // Left panel for presets
+        fillGradient(context, centerX - 210, 40, centerX - 20, height - 20, 0x80000000, 0x80000000);
+        
+        // Right panel for colors
+        fillGradient(context, centerX + 20, 40, centerX + 210, height - 100, 0x80000000, 0x80000000);
+        
+        // Bottom panel for preview
+        fillGradient(context, centerX - 160, height - 100, centerX + 160, height - 20, 0x80000000, 0x80000000);
+        
+        // Draw title with gradient
+        String titleText = "Gradient Chat Settings";
+        int titleWidth = textRenderer.getWidth(titleText);
+        int charWidth = titleWidth / titleText.length();
+        int startX = centerX - titleWidth / 2;
+        
+        for (int i = 0; i < titleText.length(); i++) {
+            float hue = (float) i / titleText.length();
+            
+            // Draw crosshair
+            context.fill(satX - 5, briY, satX + 5, briY + 1, 0xFFFFFFFF);
+            context.fill(satX, briY - 5, satX + 1, briY + 5, 0xFFFFFFFF);
+            int color = Color.HSBtoRGB(hue, 0.8f, 1.0f);
+            
+            context.drawText(
+                    textRenderer,
+                    String.valueOf(titleText.charAt(i)),
+                    startX + i * charWidth,
+                    15,
+                    color,
+                    true
+            )0;
+        }
+        
+        // Draw section titles
+        context.drawTextWithShadow(textRenderer, Text.literal("Presets"), centerX - 200, 35, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, Text.literal("Colors"), centerX + 30, 35, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, Text.literal("Preview"), centerX - 150, height - 95, 0xAA888888);
+            
+            // Draw a small indicator if hovered
+            if (isHovered()) {
+                context.fill(getX() + width/2 - 1, getY() + height - 3, getX() + width/2 + 1, getY() + height - 1, 0xFFFFFFFF);
+            }
+        // Draw preview background (checkerboard for transparency)
+            for (int x = 0; x < previewSize; x += 5) {
+                for (int y = 0; y < previewSize; y += 5) {
+                    boolean isLight = (x / 5 + y / 5) % 2 == 0;
+                    context.fill(
+                            previewX + x,
+                            previewY + y,
+                            previewX + x + 5,
+                            previewY + y + 5,
+                            isLight ? 0xFFCCCCCC : 0xFF999999
+                    );
+                }
+            }
+            
+            // Draw selected color
+            context.fill(previewX, previewY, previewX + previewSize, previewY + previewSize, 0xFF000000 | selectedColor);
+            context.drawBorder(previewX, previewY, previewSize, previewSize, 0xFFFFFFFF);
+            
+            // Draw RGB values
+            int r = (selectedColor >> 16) & 0xFF;
+            int g = (selectedColor >> 8) & 0xFF;
+            int b = selectedColor & 0xFF;
+            
+            String rgbText = String.format("R: %d  G: %d  B: %d", r, g, b);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    rgbText,
+                    getX() + previewSize + 30,
+                    previewY + 5,
+                    0xFFFFFFFF,
+                    true
+            );
+            
+            // Draw HSB values
+            String hsbText = String.format("H: %d  S: %d  B: %d", hue, saturation, brightness);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    hsbText,
+                    getX() + previewSize + 30,
+                    previewY + 20
+        // Draw preview with gradient
+        String gradientText = gradientManager.applyGradient(previewText);
+        int previewY = height - 55;
+        
+        private TextFieldWidget hexInput;
+        
+        // Draw the preview text
+        context.drawText(textRenderer, gradientText, centerX - 150, previewY, 0xFFFFFF, true);
+        
+        super.render(context, mouseX, mouseY, delta);
+        
+        // Draw tooltips for color buttons
+        for (int i = 0; i < colorButtons.size(); i++) {
+            ColorButton button = colorButtons.get(i);
+            if (button.isHovered()) {
+                int color = gradientManager.getPresets().get(selectedPreset).getColors()[i];
+                String hexColor = String.format("#%06X", color);
+                context.drawTooltip(textRenderer, Text.literal(hexColor), mouseX, mouseY);
+            }
+        }
+    }
+    
+    private void fillGradient(DrawContext context, int x1, int y1, int x2, int y2, int colorStart, int colorEnd) {
+        context.fillGradient(x1, y1, x2, y2, colorStart, colorEnd);
+        // Draw a border
+        context.drawBorder(x1, y1, x2 - x1, y2 - y1, 0x80FFFFFF);
+        }
+        
+        // Draw section titles
+        context.drawTextWithShadow(textRenderer, Text.literal("Presets"), centerX - 200, 35, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, Text.literal("Colors"), centerX + 30, 35, 0xFFFFFF);
+        context.drawTextWithShadow(textRenderer, Text.literal("Preview"), centerX - 150, height - 95, 0xFFFFFF);
+            
+            // Add hex input field
+            hexInput = new TextFieldWidget(
+                    MinecraftClient.getInstance().textRenderer,
+                    x + width/2 - 40,
+                    y + height - 25,
+                    80,
+                    20,
+                    Text.literal("Hex")
+            );
+            hexInput.setMaxLength(7); // #RRGGBB
+            hexInput.setText(String.format("#%06X", selectedColor));
+            hexInput.setChangedListener(this::onHexChanged);
+            
+            // Add to parent screen
+            MinecraftClient.getInstance().currentScreen.addDrawableChild(hexInput);
+        }
+        
+        private void onHexChanged(String text) {
+            if (text.startsWith("#") && text.length() == 7) {
+                try {
+                    int color = Integer.parseInt(text.substring(1), 16);
+                   hexInput.setText(String.format("#%06X", selectedColor));
+            callback.onColorSelected(selectedColor);
+        }
+        
+        @Override
+        public void setFocused(boolean focused) {
+            super.setFocused(focused);
+            if (!focused && hexInput != null) {
+                hexInput.setFocused(false);
+            }
+        }
+        
+        public void onRemoved() {
+            if (hexInput != null) {
+                MinecraftClient.getInstance().currentScreen.remove(hexInput);
+            }
+        }
+    }
+    
+    @Override
+    public void removed() {
+        super.removed();
+        if (colorPicker != null) {
+            colorPicker.onRemoved( = color;
+                    
+                    // Update HSB values
+                    float[] hsb = Color.RGBtoHSB(
+                            (color >> 16) & 0xFF,
+                            (color >> 8) & 0xFF,
+                            color & 0xFF,
+                            null
+                    );
+                    
+                    hue = (int) (hsb[0] * 360);
+                    saturation = (int) (hsb[1] * 100);
+                    brightness = (int) (hsb[2] * 100);
+                    
+                    callback.onColorSelected(color);
+                } catch (NumberFormatException e) {
+                    // Invalid hex, ignore
+                }
+            }
+        }
+        
+        public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+            // Draw background with border
+            context.fill(getX(), getY(), getX() + width, getY() + height, 0xDD333333);
+            context.drawBorder(getX(), getY(), width, height, 0xFFFFFFFF);
+            
+            // Draw title
+            String title = "Color Picker";
+            int titleWidth = MinecraftClient.getInstance().textRenderer.getWidth(title);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    title,
+                    getX() + (width - titleWidth) / 2,
+                    getY() + 5,
+                    0xFFFFFFFF,
+                    true
+            );
+            
+            // Draw hue slider
+            int hueSliderHeight = 15;
+            int hueSliderY = getY() + 25;
+            
+            // Draw hue slider background
+            context.fill(getX() + 10, hueSliderY, getX() + width - 10, hueSliderY + hueSliderHeight, 0xFF000000);
+            
+            // Draw hue gradient
+        // Draw preview with gradient
+        String gradientText = gradientManager.applyGradient(previewText);
+        int previewY = height - 55;
+        
+        // Draw the preview text
+        context.drawText(textRenderer, gradientText, centerX - 150, previewY, 0xFFFFFF, true);
+        
+        super.render(context, mouseX, mouseY, delta);
+        
+        // Draw tooltips for color buttons
+        for (int i = 0; i < colorButtons.size(); i++) {
+            ColorButton button = colorButtons.get(i);
+            if (button.isHovered()) {
+                int color = gradientManager.getPresets().get(selectedPreset).getColors()[i];
+                String hexColor = String.format("#%06X", color);
+                context.drawTooltip(textRenderer, Text.literal(hexColor), mouseX, mouseY);
+            }
+            // Draw grid background
+            context.fill(gridX, gridY, gridX + gridSize, gridY + gridSize, 0xFF000000);
+            
+            // Draw saturation/brightness gradient
+        }
+    }
+    
+    private void fillGradient(DrawContext context, int x1, int y1, int x2, int y2, int colorStart, int colorEnd) {
+        context.fillGradient(x1, y1, x2, y2, colorStart, colorEnd);
+        // Draw a border
+        context.drawBorder(x1, y1, x2 - x1, y2 - y1, 0x80FFFFFF);
+    }
+    
+    @Override
+    public void close() {
+        MinecraftClient.getInstance().setScreen(null);
+    }
+    
+    private static class ColorButton extends ButtonWidget {
+        private int color;
+        
+        public ColorButton(int x, int y, int width, int height, Text message, PressAction onPress, int color) {
+            super(x, y, width, height, message, onPress, DEFAULT_NARRATION_SUPPLIER);
+            this.color = color;
+        }
+        
+        public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+            // Draw button background (slightly transparent)
+            
+            // Draw crosshair
+            context.fill(satX - 5, briY, satX + 5, briY + 1, 0xFFFFFFFF);
+            context.fill(satX, briY - 5, satX + 1, briY + 5, 0xFFFFFFFF);
+            context.fill(getX(), getY(), getX() + width, getY() + height, 0xAA000000);
+            
+            // Draw color
+            context.fill(getX() + 20, getY() + 2, getX() + width - 2, getY() + height - 2, 0xFF000000 | color);
+            
+            // Draw border
+            context.drawBorder(getX(), getY(), width, height, isHovered() ? 0xFFFFFFFF : 0xAA888888);
+            
+            // Draw a small indicator if hovered
+            if (isHovered()) {
+                context.fill(getX() + width/2 - 1, getY() + height - 3, getX() + width/2 + 1, getY() + height - 1, 0xFFFFFFFF);
+            }
+        }
+        
+        public void setColor(int color) {
+            this.color = color;
+        }
+    }
+    // Draw preview background (checkerboard for transparency)
+            for (int x = 0; x < previewSize; x += 5) {
+                for (int y = 0; y < previewSize; y += 5) {
+                    boolean isLight = (x / 5 + y / 5) % 2 == 0;
+                    context.fill(
+                            previewX + x,
+                            previewY + y,
+                            previewX + x + 5,
+                            previewY + y + 5,
+                            isLight ? 0xFFCCCCCC : 0xFF999999
+                    );
+                }
+            }
+            
+            // Draw selected color
+            context.fill(previewX, previewY, previewX + previewSize, previewY + previewSize, 0xFF000000 | selectedColor);
+            context.drawBorder(previewX, previewY, previewSize, previewSize, 0xFFFFFFFF);
+            
+            // Draw RGB values
+            int r = (selectedColor >> 16) & 0xFF;
+            int g = (selectedColor >> 8) & 0xFF;
+            int b = selectedColor & 0xFF;
+            
+            String rgbText = String.format("R: %d  G: %d  B: %d", r, g, b);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    rgbText,
+                    getX() + previewSize + 30,
+                    previewY + 5,
+                    0xFFFFFFFF,
+                    true
+            );
+            
+            // Draw HSB values
+            String hsbText = String.format("H: %d  S: %d  B: %d", hue, saturation, brightness);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    hsbText,
+                    getX() + previewSize + 30,
+                    previewY + 20
+    private static class ColorPickerWidget extends ButtonWidget {
+        private int selectedColor;
+        private final ColorSelectedCallback callback;
+        
+        private int hue = 0;
+        private int saturation = 100;
+        private int brightness = 100;
+        
+        private TextFieldWidget hexInput;
+        
+        public interface ColorSelectedCallback {
+            void onColorSelected(int color);
+        }
+        
+        public ColorPickerWidget(int x, int y, int width, int height, int initialColor, ColorSelectedCallback callback) {
+            super(x, y, width, height, Text.literal(""), button -> {}, DEFAULT_NARRATION_SUPPLIER);
+            this.selectedColor = initialColor;
+            this.callback = callback;
+            
+            // Convert RGB to HSB
+            float[] hsb = Color.RGBtoHSB(
+                    (initialColor >> 16) & 0xFF,
+                    (initialColor >> 8) & 0xFF,
+                    initialColor & 0xFF,
+                    null
+            );
+            
+            this.hue = (int) (hsb[0] * 360);
+            this.saturation = (int) (hsb[1] * 100);
+            this.brightness = (int) (hsb[2] * 100);
+            
+            // Add hex input field
+            hexInput = new TextFieldWidget(
+                    MinecraftClient.getInstance().textRenderer,
+                    x + width/2 - 40,
+                    y + height - 25,
+                    80,
+                    20,
+                    Text.literal("Hex")
+            );
+            hexInput.setMaxLength(7); // #RRGGBB
+            hexInput.setText(String.format("#%06X", selectedColor));
+            hexInput.setChangedListener(this::onHexChanged);
+            
+            // Add to parent screen
+            MinecraftClient.getInstance().currentScreen.addDrawableChild(hexInput);
+        }
+        
+        private void onHexChanged(String text) {
+            if (text.startsWith("#") && text.length() == 7) {
+                try {
+                    int color = Integer.parseInt(text.substring(1), 16);
+                    selectedColor = color;
+                    
+                    // Update HSB values
+                    float[] hsb = Color.RGBtoHSB(
+                            (color >> 16) & 0xFF,
+                            (color >> 8) & 0xFF,
+                            color & 0xFF,
+                            null
+                    );
+                    
+                    hue = (int) (hsb[0] * 360);
+                    saturation = (int) (hsb[1] * 100);
+                    brightness = (int) (hsb[2] * 100);
+                    
+                    hexInput.setText(String.format("#%06X", selectedColor));
+            callback.onColorSelected(selectedColor);
+        }
+        
+        @Override
+        public void setFocused(boolean focused) {
+            super.setFocused(focused);
+            if (!focused && hexInput != null) {
+                hexInput.setFocused(false);
+            }
+        }
+        
+        public void onRemoved() {
+            if (hexInput != null) {
+                MinecraftClient.getInstance().currentScreen.remove(hexInput);
+            }
+        }
+    }
+    
+    @Override
+    public void removed() {
+        super.removed();
+        if (colorPicker != null) {
+            colorPicker.onRemoved();
+                } catch (NumberFormatException e) {
+                    // Invalid hex, ignore
+                }
+            }
+        }
+        
+        public void renderButton(DrawContext context, int mouseX, int mouseY, float delta) {
+            // Draw background with border
+            context.fill(getX(), getY(), getX() + width, getY() + height, 0xDD333333);
+            context.drawBorder(getX(), getY(), width, height, 0xFFFFFFFF);
+            
+            // Draw title
+            String title = "Color Picker";
+            int titleWidth = MinecraftClient.getInstance().textRenderer.getWidth(title);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    title,
+                    getX() + (width - titleWidth) / 2,
+                    getY() + 5,
+                    0xFFFFFFFF,
+                    true
+            );
+            
+            // Draw hue slider
+            int hueSliderHeight = 15;
+            int hueSliderY = getY() + 25;
+            
+            // Draw hue slider background
+            context.fill(getX() + 10, hueSliderY, getX() + width - 10, hueSliderY + hueSliderHeight, 0xFF000000);
+            
+            // Draw hue gradient
+            for (int i = 0; i < width - 20; i++) {
+                float hueValue = (float) i / (width - 20);
+                int hueColor = Color.HSBtoRGB(hueValue, 1.0f, 1.0f);
+                context.fill(
+                        getX() + 10 + i,
+                        hueSliderY,
+                        getX() + 11 + i,
+                        hueSliderY + hueSliderHeight,
+                        0xFF000000 | hueColor
+                );
+            }
+            
+            // Draw hue selector
+            int hueX = getX() + 10 + (int) ((width - 20) * (hue / 360.0f));
+            context.drawBorder(
+                    hueX - 2,
+                    hueSliderY - 2,
+                    5,
+                    hueSliderHeight + 4,
+                    0xFFFFFFFF
+            );
+            
+            // Draw saturation/brightness grid
+            int gridSize = Math.min(width - 20, height - 90);
+            int gridX = getX() + (width - gridSize) / 2;
+            int gridY = hueSliderY + hueSliderHeight + 10;
+            
+            // Draw grid background
+            context.fill(gridX, gridY, gridX + gridSize, gridY + gridSize, 0xFF000000);
+            
+            // Draw saturation/brightness gradient
+            for (int s = 0; s < gridSize; s++) {
+                for (int b = 0; b < gridSize; b++) {
+                    float satValue = (float) s / gridSize;
+                    float briValue = (float) (gridSize - b) / gridSize;
+                    int color = Color.HSBtoRGB(hue / 360.0f, satValue, briValue);
+                    context.fill(
+                            gridX + s,
+                            gridY + b,
+                            gridX + s + 1,
+                            gridY + b + 1,
+                            0xFF000000 | color
+                    );
+                }
+            }
+            
+            // Draw saturation/brightness selector
+            int satX = gridX + (int) (saturation / 100.0f * gridSize);
+            int briY = gridY + (int) ((100 - brightness) / 100.0f * gridSize);
+            
+            // Draw crosshair
+            context.fill(satX - 5, briY, satX + 5, briY + 1, 0xFFFFFFFF);
+            context.fill(satX, briY - 5, satX + 1, briY + 5, 0xFFFFFFFF);
+            context.drawBorder(satX - 3, briY - 3, 7, 7, 0xFFFFFFFF);
+            
+            // Draw selected color preview
+            int previewSize = 30;
+            int previewX = getX() + 20;
+            int previewY = gridY + gridSize + 10;
+            
+            // Draw preview background (checkerboard for transparency)
+            for (int x = 0; x < previewSize; x += 5) {
+                for (int y = 0; y < previewSize; y += 5) {
+                    boolean isLight = (x / 5 + y / 5) % 2 == 0;
+                    context.fill(
+                            previewX + x,
+                            previewY + y,
+                            previewX + x + 5,
+                            previewY + y + 5,
+                            isLight ? 0xFFCCCCCC : 0xFF999999
+                    );
+                }
+            }
+            
+            // Draw selected color
+            context.fill(previewX, previewY, previewX + previewSize, previewY + previewSize, 0xFF000000 | selectedColor);
+            context.drawBorder(previewX, previewY, previewSize, previewSize, 0xFFFFFFFF);
+            
+            // Draw RGB values
+            int r = (selectedColor >> 16) & 0xFF;
+            int g = (selectedColor >> 8) & 0xFF;
+            int b = selectedColor & 0xFF;
+            
+            String rgbText = String.format("R: %d  G: %d  B: %d", r, g, b);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    rgbText,
+                    getX() + previewSize + 30,
+                    previewY + 5,
+                    0xFFFFFFFF,
+                    true
+            );
+            
+            // Draw HSB values
+            String hsbText = String.format("H: %d  S: %d  B: %d", hue, saturation, brightness);
+            context.drawText(
+                    MinecraftClient.getInstance().textRenderer,
+                    hsbText,
+                    getX() + previewSize + 30,
+                    previewY + 20,
+                    0xFFFFFFFF,
+                    true
+            );
+        }
+        
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (button == 0) {
+                // Check if clicked on hue slider
+                int hueSliderY = getY() + 10;
+                int hueSliderHeight = 20;
+                
+                if (mouseY >= hueSliderY && mouseY <= hueSliderY + hueSliderHeight &&
+                        mouseX >= getX() + 10 && mouseX <= getX() + width - 10) {
+                    hue = (int) ((mouseX - (getX() + 10)) / (width - 20) * 360);
+                    updateSelectedColor();
+                    return true;
+                }
+                
+                // Check if clicked on saturation/brightness grid
+                int gridSize = 100;
+                int gridX = getX() + (width - gridSize) / 2;
+                int gridY = hueSliderY + hueSliderHeight + 10;
+                
+                if (mouseX >= gridX && mouseX <= gridX + gridSize &&
+                        mouseY >= gridY && mouseY <= gridY + gridSize) {
+                    saturation = (int) ((mouseX - gridX) / gridSize * 100);
+                    brightness = (int) ((gridSize - (mouseY - gridY)) / gridSize * 100);
+                    updateSelectedColor();
+                    return true;
+                }
+            }
+            
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+        
+        @Override
+        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+            if (button == 0) {
+                // Check if dragging on hue slider
+                int hueSliderY = getY() + 10;
+                int hueSliderHeight = 20;
+                
+                if (mouseY >= hueSliderY && mouseY <= hueSliderY + hueSliderHeight) {
+                    int newHue = (int) ((mouseX - (getX() + 10)) / (width - 20) * 360);
+                    hue = Math.max(0, Math.min(359, newHue));
+                    updateSelectedColor();
+                    return true;
+                }
+                
+                // Check if dragging on saturation/brightness grid
+                int gridSize = 100;
+                int gridX = getX() + (width - gridSize) / 2;
+                int gridY = hueSliderY + hueSliderHeight + 10;
+                
+                int newSat = (int) ((mouseX - gridX) / gridSize * 100);
+                int newBri = (int) ((gridSize - (mouseY - gridY)) / gridSize * 100);
+                
+                saturation = Math.max(0, Math.min(100, newSat));
+                brightness = Math.max(0, Math.min(100, newBri));
+                updateSelectedColor();
+                return true;
+            }
+            
+            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
+        
+        private void updateSelectedColor() {
+            selectedColor = Color.HSBtoRGB(hue / 360.0f, saturation / 100.0f, brightness / 100.0f) & 0xFFFFFF;
+            hexInput.setText(String.format("#%06X", selectedColor));
+            callback.onColorSelected(selectedColor);
+        }
+        
+        @Override
+        public void setFocused(boolean focused) {
+            super.setFocused(focused);
+            if (!focused && hexInput != null) {
+                hexInput.setFocused(false);
+            }
+        }
+        
+        public void onRemoved() {
+            if (hexInput != null) {
+                MinecraftClient.getInstance().currentScreen.remove(hexInput);
+            }
+        }
+    }
+    
+    @Override
+    public void removed() {
+        super.removed();
+        if (colorPicker != null) {
+            colorPicker.onRemoved();
+        }
+    }
+}

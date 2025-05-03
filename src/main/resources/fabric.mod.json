@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "id": "gradient-chat",
+  "version": "${version}",
+  "name": "Gradient Chat",
+  "description": "A mod that adds gradient colors to chat messages",
+  "authors": [
+    "Your Name"
+  ],
+  "contact": {
+    "homepage": "https://example.com/",
+    "sources": "https://github.com/yourusername/gradient-chat"
+  },
+  "license": "MIT",
+  "icon": "assets/gradient-chat/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.example.gradientchat.GradientChatMod"
+    ]
+  },
+  "mixins": [
+    "gradient-chat.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+    "fabric-api": "*",
+    "minecraft": "~1.21.1",
+    "java": ">=21"
+  }
+}
